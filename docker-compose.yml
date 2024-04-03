@@ -8,7 +8,7 @@ services:
     ports:
       - "3300:3000"
     environment:
-      - CONNECTION_URL_LOCAL=mongodb+srv://amirav4:amira123@freecluster.qa8ui3z.mongodb.net/ecommerce-production
+      - CONNECTION_URL_LOCAL=mongodb+srv://Mhammedav4:Mhammeda123@freecluster.qa8ui3z.mongodb.net/ecommerce-production
 
   mongodb:
     image: mongodb-img

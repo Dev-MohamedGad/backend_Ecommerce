@@ -17,6 +17,9 @@ router.put('/updateUser', expressAsyncHandler(authController.updateUser))
 router.delete('/softDeleteUser', expressAsyncHandler(authController.softDeleteUser))
 router.get('/getUserProfile', expressAsyncHandler(authController.getUserProfile))
 router.put('/updatePassword', expressAsyncHandler(authController.updatePassword))
+router.post('/forgetpassword',expressAsyncHandler(authController.forgetPassword))
+
+router.post('/resetpassword/:token',expressAsyncHandler(authController.resetPassword))
 
 
 export default router;
