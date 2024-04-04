@@ -18,4 +18,6 @@ router.post('/',
         extensions: allowedExtensions.image
     }).single('image'),
     expressAsyncHandler(brandController.addBrand))
+    router.put('/:id',auth
+    (endPointsRoles.ADD_BRAND),expressAsyncHandler(brandController.updateBrand))
 export default router

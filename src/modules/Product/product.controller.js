@@ -15,51 +15,7 @@ export const addProduct = async (req, res, next) => {
     console.log('I am in the add product api');
     // data from the request body
     const { title, basePrice, stock,  /*discount,specs,desc */ } = req.body
-    // data from the request query
-    // const { categoryId, subCategoryId, brandId } = req.query
-    // data from the request authUser
-    // const addedBy = req.authUser._id
 
-    // brand check 
-    // const brand = await Brand.findById(brandId)
-    // if (!brand) return next({ cause: 404, message: 'Brand not found' })
-
-    // // category check
-    // if (brand.categoryId.toString() !== categoryId) return next({ cause: 400, message: 'Brand not found in this category' })
-    // // sub-category check
-    // if (brand.subCategoryId.toString() !== subCategoryId) return next({ cause: 400, message: 'Brand not found in this sub-category' })
-
-    // // who will be authorized to add a product
-    // if (
-    //     req.authUser.role !== systemRoles.SUPER_ADMIN &&
-    //     brand.addedBy.toString() !== addedBy.toString()
-    // ) return next({ cause: 403, message: 'You are not authorized to add a product to this brand' })
-
-    // // generate the product  slug
-    // const slug = slugify(title, { lower: true, replacement: '-' })  //  lowercase: true
-
-    // //  applied price calculations
-    // const appliedPrice = basePrice - (basePrice * (discount || 0) / 100)
-
-    // console.log(specs)
-
-    // //Images
-    // if (!req.files?.length) return next({ cause: 400, message: 'Images are required' })
-    // const Images = []
-    // const folderId = generateUniqueString(4)
-    // const folderPath = brand.Image.public_id.split(`${brand.folderId}/`)[0]
-
-    // for (const file of req.files) {
-    // ecommerce-project/Categories/4aa3/SubCategories/fhgf/Brands/5asf/z2wgc418otdljbetyotn
-    //     const { secure_url, public_id } = await cloudinaryConnection().uploader.upload(file.path, {
-    //         folder: folderPath + `${brand.folderId}/Products/${folderId}`
-    //     })
-    //     Images.push({ secure_url, public_id })
-    // }
-    // req.folder = folderPath + `${brand.folderId}/Products/${folderId}`
-
-
-    // prepare the product object for db 
     const product = {
         title,  basePrice, stock
           /*, desc,  discount, appliedPrice,
@@ -128,10 +84,6 @@ export const updateProduct = async (req, res, next) => {
         const folderPath = product.Images[0].public_id.split(`${product.folderId}/`)[0]
         const newPublicId = oldPublicId.split(`${product.folderId}/`)[1]
 
-        // console.log('folderPath', folderPath)
-        // console.log('newPublicId', newPublicId)
-        // console.log(`oldPublicId`, oldPublicId);
-
         const { secure_url } = await cloudinaryConnection().uploader.upload(req.file.path, {
             folder: folderPath + `${product.folderId}`,
             public_id: newPublicId
@@ -162,7 +114,9 @@ export const getAllProducts = async (req, res, next) => {
 
     // console.log(features.mongooseQuery);
     // const products = await features.mongooseQuery
-    const products = await Product.find()
+    const products = await Product.find().populate([{
+        path:'Reviews'
+    }])
    
     res.status(200).json({ success: true, data: products })
 }
